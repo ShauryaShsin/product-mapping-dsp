@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.image import (
 
 NUMBER_OF_VARIATIONS = 10
 
-directory = "input_images"
+directory = "dataset/kims_halv_salt"
 
 # Loop through the files in the directory
 for filename in os.listdir(directory):
@@ -22,7 +22,7 @@ for filename in os.listdir(directory):
     )  # Add a new axis to make the image array four dimensional
 
     # Define the directory to save augmented images
-    save_dir = "augmented_images"
+    save_dir = "dataset/train_data/sour_cream"
     os.makedirs(save_dir, exist_ok=True)
 
     # Create an ImageDataGenerator for data augmentation
