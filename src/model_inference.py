@@ -20,13 +20,13 @@ def predict_product(img_path: str) -> str:
     image_size = (180, 180)
 
     # Setup paths
-    dir = pathlib.Path("dataset")
+    dir = pathlib.Path("src/dataset")
     dataset = image_dataset_from_directory(
         dir / "validation", image_size=image_size, batch_size=16
     )
 
     # Load model
-    model = keras.models.load_model("convnet_from_scratch.keras")
+    model = keras.models.load_model("src/convnet_from_scratch.keras")
 
     img = keras.utils.load_img(img_path, target_size=image_size)
     # plt.imshow(img)
@@ -52,4 +52,4 @@ def predict_product(img_path: str) -> str:
     return classes[np.argmax(probabilities)]
 
 
-print("Predicted product is: ", predict_product(img_path=TEST_IMAGE))
+# print("Predicted product is: ", predict_product(img_path=TEST_IMAGE))
