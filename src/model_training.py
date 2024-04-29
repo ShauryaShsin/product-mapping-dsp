@@ -17,7 +17,7 @@ train_dataset = image_dataset_from_directory(
     new_base_dir / "train", image_size=(180, 180), batch_size=16
 )
 
-N_CLASSES = 3
+N_CLASSES = 10
 
 # Define the model
 # TODO: understand this better

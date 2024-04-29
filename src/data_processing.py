@@ -12,8 +12,8 @@ from tensorflow.keras.preprocessing.image import (
 CLEANUP_DIRS = True
 NUMBER_OF_VARIATIONS = 100
 
-directory_input = "product_images"
-directory_output = "dataset"
+directory_input = "src/product_images"
+directory_output = "src/dataset"
 
 product_classes = [
     filename for filename in os.listdir(directory_input) if filename != ".DS_Store"
@@ -23,12 +23,12 @@ print(product_classes)
 
 # Clean up dirs
 if CLEANUP_DIRS is True:
-    if os.path.exists("dataset/validation"):
-        shutil.rmtree("dataset/validation")
-    if os.path.exists("dataset/train"):
-        shutil.rmtree("dataset/train")
-    if os.path.exists("dataset/test"):
-        shutil.rmtree("dataset/test")
+    if os.path.exists("src/dataset/validation"):
+        shutil.rmtree("src/dataset/validation")
+    if os.path.exists("src/dataset/train"):
+        shutil.rmtree("src/dataset/train")
+    if os.path.exists("src/dataset/test"):
+        shutil.rmtree("src/dataset/test")
 
 for fileclass in product_classes:
     # Loop through the files in the directory
