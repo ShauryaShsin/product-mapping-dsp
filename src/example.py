@@ -79,3 +79,6 @@ for index, row in df_retailer.iterrows():
     df_retailer.at[index, "Salling_SKU"] = salling_sku
 
     df_retailer.to_csv("src/data/retailer_products.csv")
+
+
+# Pricemappung tabel
