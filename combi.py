@@ -40,16 +40,22 @@ model = keras.Sequential(
 
 # Compile model for multi-class with sparse categorical crossentropy
 model.compile(
-    optimizer="rmsprop", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
-)
-# Save the best model
-# callbacks = [
-#     keras.callbacks.ModelCheckpoint(
-#         filepath="convnet_from_scratch.keras", save_best_only=True, monitor="val_loss"
-#     )
-# ]
+    optimizer="rmsprop", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-# Fit the model
-# history = model.fit(
-#     train_dataset, epochs=5, validation_data=test_dataset, callbacks=callbacks
-# )
+
+new_base_dir = pathlib.Path("dataset")
+
+test_dataset = image_dataset_from_directory(
+    new_base_dir / "test", image_size=(180, 180), batch_size=32
+)
+
+# model = keras.models.load_model("convnet_from_scratch.keras")
+
+test_loss, test_accuracy = model.evaluate(test_dataset)
+
+# print(f"Test loss: {test_loss}")
+# print(f"Test accuracy: {test_accuracy}")
+
+# Predict classes using the model on the test dataset
+predictions = model.predict(test_dataset)
+predicted_classes = np.argmax(predictions, axis=1)

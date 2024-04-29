@@ -5,7 +5,7 @@ from tensorflow.keras.utils import image_dataset_from_directory
 import numpy as np
 import tensorflow as tf
 from sklearn.metrics import classification_report, confusion_matrix
-
+from train_model import model
 
 new_base_dir = pathlib.Path("dataset")
 
@@ -13,7 +13,7 @@ test_dataset = image_dataset_from_directory(
     new_base_dir / "test", image_size=(180, 180), batch_size=32
 )
 
-model = keras.models.load_model("convnet_from_scratch.keras")
+# model = keras.models.load_model("convnet_from_scratch.keras")
 
 test_loss, test_accuracy = model.evaluate(test_dataset)
 
@@ -39,6 +39,11 @@ conf_matrix = confusion_matrix(true_labels, predicted_classes)
 print(conf_matrix)
 
 # General test accuracy
-test_loss, test_accuracy = model.evaluate(test_dataset)
-print(f"Test loss: {test_loss}")
-print(f"Test accuracy: {test_accuracy}")
+# test_loss, test_accuracy = model.evaluate(test_dataset)
+# print(f"Test loss: {test_loss}")
+# print(f"Test accuracy: {test_accuracy}")
+
+# Iterate over predictions and true labels to determine the group
+for i in range(len(true_labels)):
+    print(f"Test image {i+1} belongs to group {true_labels[i]}, predicted as group {predicted_classes[i]}")
+
