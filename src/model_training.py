@@ -7,17 +7,17 @@ import tensorflow as tf
 
 new_base_dir = pathlib.Path("src/dataset")
 
-test_dataset = image_dataset_from_directory(
-    new_base_dir / "validation", image_size=(180, 180), batch_size=16
-)
-
 
 # labels are generated from the directory structure
 train_dataset = image_dataset_from_directory(
     new_base_dir / "train", image_size=(180, 180), batch_size=16
 )
 
-N_CLASSES = 3
+test_dataset = image_dataset_from_directory(
+    new_base_dir / "validation", image_size=(180, 180), batch_size=16
+)
+
+N_CLASSES = len([name for name in os.listdir("src/dataset/validation")])
 
 # Define the model
 # TODO: understand this better
