@@ -5,7 +5,7 @@ from tensorflow.keras.utils import image_dataset_from_directory
 import numpy as np
 import tensorflow as tf
 
-new_base_dir = pathlib.Path("dataset")
+new_base_dir = pathlib.Path("src/dataset")
 
 test_dataset = image_dataset_from_directory(
     new_base_dir / "validation", image_size=(180, 180), batch_size=16
@@ -43,7 +43,9 @@ model.compile(
 # Save the best model
 callbacks = [
     keras.callbacks.ModelCheckpoint(
-        filepath="convnet_from_scratch.keras", save_best_only=True, monitor="val_loss"
+        filepath="src/convnet_from_scratch.keras",
+        save_best_only=True,
+        monitor="val_loss",
     )
 ]
 

@@ -1,4 +1,5 @@
 """
+Use the trained model for inference.
 Ressources:
 https://keras.io/examples/vision/image_classification_from_scratch/
 """
@@ -11,7 +12,7 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 
-TEST_IMAGE = "dataset/validation/sour/image.jpg"
+TEST_IMAGE = "src/dataset/validation/sour/image.jpg"
 
 
 def predict_product(img_path: str) -> str:

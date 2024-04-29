@@ -1,3 +1,5 @@
+"""Processess and prepares images for model training"""
+
 import os
 import shutil
 import numpy as np
@@ -10,7 +12,7 @@ from tensorflow.keras.preprocessing.image import (
 CLEANUP_DIRS = True
 NUMBER_OF_VARIATIONS = 100
 
-directory_input = "scraped_data"
+directory_input = "product_images"
 directory_output = "dataset"
 
 product_classes = [
