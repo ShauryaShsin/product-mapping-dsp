@@ -5,7 +5,7 @@ import time
 import os
 
 # Define the URL of the website to scrape
-url = "https://shop.rema1000.dk/slik/mixposer"
+url = "https://shop.rema1000.dk/kolonial/chips-og-snacks"
 
 # Set up Selenium WebDriver (make sure you have the appropriate driver installed)
 driver = webdriver.Chrome()  # You can use other drivers like Firefox or Edge
@@ -35,11 +35,31 @@ for index, img in enumerate(image_elements):
     img_content = requests.get(img_url).content
     
     # Save the image to the images directory
-    with open(os.path.join("images", f"image_{index}.jpg"), "wb") as f:
+    image_path = os.path.join("images", f"image_{index}.jpg")
+    with open(image_path, "wb") as f:
         f.write(img_content)
-        # Increment the image count
-        image_count += 1
-        print(f"Image {index} saved successfully.")
+    
+    # Increment the image count
+    image_count += 1
+    print(f"Image {index} saved successfully.")
+
+### PRINTING PRICE AND TITLE OF EACH IMAGE
+# Find the price elements
+price_elements = driver.find_elements(By.CLASS_NAME, "price-normal")
+
+# Find the title elements
+title_elements = driver.find_elements(By.CLASS_NAME, "title")
+
+#Who is the manufacturer
+manuf_elements = driver.find_elements(By.CLASS_NAME, "extra")
+
+# Combine the image, price, and title elements into pairs
+combined_list = zip(image_elements, price_elements, title_elements, manuf_elements)
+
+# Print the combined list with comma-separated elements
+for index, (image_element, price_element, title_element, manuf_elements) in enumerate(combined_list):
+    image_path = os.path.join("images", f"image_{index}.jpg")
+    print(f"Image Path: {image_path}, Manufacturer: {manuf_elements.get_attribute('outerHTML')}, Price: {price_element.get_attribute('outerHTML')}, Title: {title_element.get_attribute('outerHTML')}")
 
 # Print the total number of images found and saved
 print(f"Total number of images found and saved: {image_count}")
