@@ -50,13 +50,16 @@ price_elements = driver.find_elements(By.CLASS_NAME, "price-normal")
 # Find the title elements
 title_elements = driver.find_elements(By.CLASS_NAME, "title")
 
+#Who is the manufacturer
+manuf_elements = driver.find_elements(By.CLASS_NAME, "extra")
+
 # Combine the image, price, and title elements into pairs
-combined_list = zip(image_elements, price_elements, title_elements)
+combined_list = zip(image_elements, price_elements, title_elements, manuf_elements)
 
 # Print the combined list with comma-separated elements
-for index, (image_element, price_element, title_element) in enumerate(combined_list):
+for index, (image_element, price_element, title_element, manuf_elements) in enumerate(combined_list):
     image_path = os.path.join("images", f"image_{index}.jpg")
-    print(f"Image Path: {image_path}, Price: {price_element.get_attribute('outerHTML')}, Title: {title_element.get_attribute('outerHTML')}")
+    print(f"Image Path: {image_path}, Manufacturer: {manuf_elements.get_attribute('outerHTML')}, Price: {price_element.get_attribute('outerHTML')}, Title: {title_element.get_attribute('outerHTML')}")
 
 # Print the total number of images found and saved
 print(f"Total number of images found and saved: {image_count}")
