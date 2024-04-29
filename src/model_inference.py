@@ -12,7 +12,7 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 
-TEST_IMAGE = "src/dataset/validation/sour/image.jpg"
+TEST_IMAGE = "src/scraped_images/rema1000_25.jpg"
 
 
 def predict_product(img_path: str) -> str:
@@ -52,4 +52,4 @@ def predict_product(img_path: str) -> str:
     return classes[np.argmax(probabilities)]
 
 
-# print("Predicted product is: ", predict_product(img_path=TEST_IMAGE))
+print("Predicted product is: ", predict_product(img_path=TEST_IMAGE))

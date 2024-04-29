@@ -13,6 +13,7 @@ train_dataset = image_dataset_from_directory(
     new_base_dir / "train", image_size=(180, 180), batch_size=16
 )
 
+
 test_dataset = image_dataset_from_directory(
     new_base_dir / "validation", image_size=(180, 180), batch_size=16
 )
