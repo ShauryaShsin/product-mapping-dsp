@@ -10,7 +10,8 @@ from tensorflow.keras.preprocessing.image import (
 )
 
 CLEANUP_DIRS = True
-NUMBER_OF_VARIATIONS = 100
+NUMBER_OF_VARIATIONS = 80
+NUMBER_OF_VARIATIONS_val = 20
 
 directory_input = "src/product_images"
 directory_output = "src/dataset"
@@ -27,8 +28,8 @@ if CLEANUP_DIRS is True:
         shutil.rmtree("src/dataset/validation")
     if os.path.exists("src/dataset/train"):
         shutil.rmtree("src/dataset/train")
-    if os.path.exists("src/dataset/test"):
-        shutil.rmtree("src/dataset/test")
+  #  if os.path.exists("src/dataset/test"):
+   #     shutil.rmtree("src/dataset/test")
 
 for fileclass in product_classes:
     # Loop through the files in the directory
@@ -72,6 +73,14 @@ for fileclass in product_classes:
             save_format="jpeg",
         )
 
+        augmented_images_val = datagen.flow(
+            image,
+            batch_size=1,
+            save_to_dir=validation_dir,
+            save_prefix="aug_",
+            save_format="jpeg",
+        )
+
         # Generate and save a number of augmented images
         for i in range(
             NUMBER_OF_VARIATIONS
@@ -81,3 +90,13 @@ for fileclass in product_classes:
             )  # Generates and saves the next batch of augmented images
 
         print(f"Augmented images saved to {save_dir}")
+
+        # Generate and save a number of augmented images
+        for i in range(
+            NUMBER_OF_VARIATIONS_val
+        ):  # Specify the number of augmented images to generate
+            next(
+                augmented_images_val
+            )  # Generates and saves the next batch of augmented images
+
+        print(f"Augmented images saved to {validation_dir}")
