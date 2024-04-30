@@ -12,47 +12,28 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 
-new_base_dir = pathlib.Path("src/dataset")
-
-test_dataset = image_dataset_from_directory(
-    new_base_dir / "test", image_size=(180, 180), batch_size=16)
-
-
-def predict_product(img_path: str) -> str:
-    """Predicts product class using validation folder"""
-    image_size = (180, 180)
-
+def predict_all_products(test_dir: str):
+    """Predicts product class for all images in the test directory"""
     # Setup paths
-    dir = pathlib.Path("src/dataset")
-    dataset = image_dataset_from_directory(
-        dir / "test", image_size=image_size, batch_size=16
+    test_dataset = image_dataset_from_directory(
+        test_dir, image_size=(180, 180), batch_size=16
     )
 
     # Load model
     model = keras.models.load_model("src/convnet_from_scratch.keras")
 
-    img = keras.utils.load_img(img_path, target_size=image_size)
-    # plt.imshow(img)
-
-    # Store image in numpy array
-    img_array = keras.utils.img_to_array(img)
-    img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
-
-    predictions = model.predict(img_array)
-
-    # Apply softmax to convert logits to probabilities
-    probabilities = keras.activations.softmax(predictions[0]).numpy()
-
     # Get classes from dataset
-    classes = (
-        dataset.class_names
-    )  # classes = ["favorit", "havsalt", "sour"]  # Modify as per your actual classes
+    classes = test_dataset.class_names
 
-    # Print the probabilities for each class
-    for class_name, probability in zip(classes, probabilities):
-        print(f"This image is {probability * 100:.2f}% {class_name}.")
+    # Predict for each image in the test dataset
+    for images, labels in test_dataset:
+        predictions = model.predict(images)
+        for i in range(len(labels)):
+            folder_name = os.path.basename(os.path.dirname(test_dataset.file_paths[i]))
+            probabilities = keras.activations.softmax(predictions[i]).numpy()
+            predicted_class_index = np.argmax(probabilities)
+            predicted_class = classes[predicted_class_index]
+            print(f"Folder: {folder_name}, Predicted class: {predicted_class}")
 
-    return classes[np.argmax(probabilities)]
-
-
-print("Predicted product is: ", predict_product(img_path=TEST_IMAGE))
+test_dir = pathlib.Path("src/dataset/test")
+predict_all_products(test_dir)

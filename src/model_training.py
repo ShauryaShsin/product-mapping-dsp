@@ -18,6 +18,10 @@ validation_dataset = image_dataset_from_directory(
     new_base_dir / "validation", image_size=(180, 180), batch_size=16
 )
 
+test_dataset = image_dataset_from_directory(
+    new_base_dir / "test", image_size=(180, 180), batch_size=16
+)
+
 N_CLASSES = len([name for name in os.listdir("src/dataset/validation")])
 
 # Define the model
@@ -26,13 +30,13 @@ model = keras.Sequential(
     [
         layers.Rescaling(1.0 / 255),  # Normalize the input images to [0, 1]
         layers.Conv2D(32, (3, 3), activation="relu", input_shape=(180, 180, 3)),
-        # layers.MaxPooling2D(2, 2),
-        # layers.Conv2D(64, (3, 3), activation="relu"),
-        # layers.MaxPooling2D(2, 2),
-        # layers.Conv2D(128, (3, 3), activation="relu"),
-        # layers.MaxPooling2D(2, 2),
+        layers.MaxPooling2D(2, 2),
+        layers.Conv2D(64, (3, 3), activation="relu"),
+        layers.MaxPooling2D(2, 2),
+        layers.Conv2D(128, (3, 3), activation="relu"),
+        layers.MaxPooling2D(2, 2),
         layers.Flatten(),
-        layers.Dense(64, activation="relu"),
+        layers.Dense(128, activation="relu"),
         layers.Dense(N_CLASSES, activation="softmax"),
     ]
 )
@@ -56,9 +60,12 @@ history = model.fit(
 )
 
 validation_loss, validation_accuracy = model.evaluate(validation_dataset)
-
 print(f"Validation loss: {validation_loss}")
 print(f"Validation accuracy: {validation_accuracy}")
 
-weight_matrix = model.save_weights()
-print(weight_matrix)
+test_loss, test_acc = model.evaluate(test_dataset)
+print(f"Test loss: {test_loss}")
+print(f"Test accuracy: {test_acc:.3f}")
+
+# weight_matrix = model.save_weights(filepath = 'src/model.weights.h5')
+# print(weight_matrix)
