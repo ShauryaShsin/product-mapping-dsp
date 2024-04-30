@@ -12,7 +12,7 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 
-TEST_IMAGE = "src/dataset/test/pringles-sour/rema_image.jpg"
+TEST_IMAGE = "src\dataset\test\kims-havsalt\rema_image.jpg"
 
 
 def predict_product(img_path: str) -> str:
