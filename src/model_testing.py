@@ -12,7 +12,10 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 
-TEST_IMAGE = "src/scraped_images/rema1000_38.jpg"
+new_base_dir = pathlib.Path("src/dataset")
+
+test_dataset = image_dataset_from_directory(
+    new_base_dir / "test", image_size=(180, 180), batch_size=16)
 
 
 def predict_product(img_path: str) -> str:
@@ -22,7 +25,7 @@ def predict_product(img_path: str) -> str:
     # Setup paths
     dir = pathlib.Path("src/dataset")
     dataset = image_dataset_from_directory(
-        dir / "validation", image_size=image_size, batch_size=16
+        dir / "test", image_size=image_size, batch_size=16
     )
 
     # Load model

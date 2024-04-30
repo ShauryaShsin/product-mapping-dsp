@@ -14,7 +14,7 @@ train_dataset = image_dataset_from_directory(
 )
 
 
-test_dataset = image_dataset_from_directory(
+validation_dataset = image_dataset_from_directory(
     new_base_dir / "validation", image_size=(180, 180), batch_size=16
 )
 
@@ -32,7 +32,7 @@ model = keras.Sequential(
         # layers.Conv2D(128, (3, 3), activation="relu"),
         # layers.MaxPooling2D(2, 2),
         layers.Flatten(),
-        layers.Dense(64, activation="relu"),  #
+        layers.Dense(64, activation="relu"),
         layers.Dense(N_CLASSES, activation="softmax"),
     ]
 )
@@ -52,10 +52,13 @@ callbacks = [
 
 # Fit the model
 history = model.fit(
-    train_dataset, epochs=5, validation_data=test_dataset, callbacks=callbacks
+    train_dataset, epochs=5, validation_data=validation_dataset, callbacks=callbacks
 )
 
-test_loss, test_accuracy = model.evaluate(test_dataset)
+validation_loss, validation_accuracy = model.evaluate(validation_dataset)
 
-print(f"Test loss: {test_loss}")
-print(f"Test accuracy: {test_accuracy}")
+print(f"Validation loss: {validation_loss}")
+print(f"Validation accuracy: {validation_accuracy}")
+
+weight_matrix = model.save_weights()
+print(weight_matrix)
