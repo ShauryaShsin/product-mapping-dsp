@@ -30,11 +30,11 @@ model = keras.Sequential(
     [
         layers.Rescaling(1.0 / 255),  # Normalize the input images to [0, 1]
         layers.Conv2D(32, (3, 3), activation="relu", input_shape=(180, 180, 3)),
-        layers.MaxPooling2D(2, 2),
-        layers.Conv2D(64, (3, 3), activation="relu"),
-        layers.MaxPooling2D(2, 2),
-        layers.Conv2D(128, (3, 3), activation="relu"),
-        layers.MaxPooling2D(2, 2),
+        # layers.MaxPooling2D(2, 2),
+        # layers.Conv2D(64, (3, 3), activation="relu"),
+        # layers.MaxPooling2D(2, 2),
+        # layers.Conv2D(128, (3, 3), activation="relu"),
+        # layers.MaxPooling2D(2, 2),
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
         layers.Dense(N_CLASSES, activation="softmax"),
