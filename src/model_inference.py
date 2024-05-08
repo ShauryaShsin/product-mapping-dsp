@@ -12,8 +12,9 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 from config import IMAGE_SIZE
+from pathlib import Path
 
-TEST_IMAGE = "src/dataset/test/kims-havsalt/rema_image.jpg"
+TEST_IMAGE = Path("src/dataset/test/kims-havsalt/rema_image.jpg")
 
 
 def predict_product(img_path: str) -> str:
