@@ -1,4 +1,9 @@
 .DS_Store
 .keres
 convnet_from_scratch.keras
-model_weights.keras
+
+# Ignore image files in a specific directory
+src/dataset/*.jpg
+src/dataset/*.jpeg
+src/dataset/*.png
+src/dataset/*.gif
