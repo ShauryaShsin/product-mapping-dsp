@@ -3,17 +3,15 @@
 import os
 import shutil
 import numpy as np
+from PIL import Image
 from tensorflow.keras.preprocessing.image import (
     ImageDataGenerator,
     img_to_array,
     load_img,
 )
+from config import IMAGE_SIZE, CLEANUP_DIRS, NUMBER_OF_AUGMENTATION_VARIANTS
 
 # TODO: Rema images should automatically be put into the test set
-
-CLEANUP_DIRS = True
-NUMBER_OF_VARIATIONS = 80
-NUMBER_OF_VARIATIONS_val = 20
 
 directory_input = "src/product_images"
 directory_output = "src/dataset"
@@ -39,16 +37,33 @@ for fileclass in product_classes:
     filepath = os.path.join(directory_input, fileclass, "image.jpg")
 
     # Load your image
-    image = load_img(filepath)  # Make sure to provide the path to your image
-    image = img_to_array(image)  # Convert the image to numpy array
-    image = np.expand_dims(
-        image, axis=0
-    )  # Add a new axis to make the image array four dimensional
+    image = Image.open(filepath)  # Make sure to provide the path to your image
+
+    # Calculate new size, preserving aspect ratio
+    aspect_ratio = image.width / image.height
+    new_height = IMAGE_SIZE[1]
+    new_width = int(new_height * aspect_ratio)
+    if new_width > IMAGE_SIZE[0]:
+        new_width = IMAGE_SIZE[0]
+        new_height = int(new_width / aspect_ratio)
+
+    image_resized = image.resize((new_width, new_height), Image.LANCZOS)
+
+    # Convert the image to numpy array
+    image_array = np.array(image_resized)
+
+    # Ensure the array is four dimensional
+    image_array = np.expand_dims(
+        image_array, axis=0
+    )  # This should be included to add the batch dimension
 
     # Copy original images to validation directory
-    validation_dir = f"{directory_output}/validation/{fileclass}"
+    validation_dir = os.path.join(directory_output, "validation", fileclass)
     os.makedirs(validation_dir, exist_ok=True)
-    shutil.copyfile(filepath, validation_dir + "/image.jpg")
+
+    # Save the resized image to the validation directory
+    resized_image_path = os.path.join(validation_dir, "image.jpg")
+    image_resized.save(resized_image_path)
 
     # Create augmentations from the original images into the train dataset
     for type in ["train"]:
@@ -68,7 +83,7 @@ for fileclass in product_classes:
 
         # Generate batches of augmented images and save them to the specified directory
         augmented_images = datagen.flow(
-            image,
+            image_array,
             batch_size=1,
             save_to_dir=save_dir,
             save_prefix="aug_",
@@ -85,7 +100,7 @@ for fileclass in product_classes:
 
         # Generate and save a number of augmented images
         for i in range(
-            NUMBER_OF_VARIATIONS
+            NUMBER_OF_AUGMENTATION_VARIANTS
         ):  # Specify the number of augmented images to generate
             next(
                 augmented_images

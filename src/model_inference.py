@@ -11,13 +11,14 @@ from keras import layers
 from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
+from config import IMAGE_SIZE
 
-TEST_IMAGE = "src\dataset\test\kims-havsalt\rema_image.jpg"
+TEST_IMAGE = "src/dataset/test/kims-havsalt/rema_image.jpg"
 
 
 def predict_product(img_path: str) -> str:
     """Predicts product class using validation folder"""
-    image_size = (180, 180)
+    image_size = IMAGE_SIZE
 
     # Setup paths
     dir = pathlib.Path("src/dataset")

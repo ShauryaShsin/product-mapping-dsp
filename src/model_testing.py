@@ -11,13 +11,14 @@ from keras import layers
 from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
+from config import IMAGE_SIZE
 
 
 def predict_all_products(test_dir: str):
     """Predicts product class for all images in the test directory"""
     # Setup paths
     test_dataset = image_dataset_from_directory(
-        test_dir, image_size=(180, 180), batch_size=16
+        test_dir, image_size=IMAGE_SIZE, batch_size=16
     )
 
     # Load model
