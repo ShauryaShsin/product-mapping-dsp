@@ -26,7 +26,7 @@ N_CLASSES = len([name for name in os.listdir("src/dataset/validation")])
 
 # Define the model
 # TODO: understand this better
-model = keras.Sequential(
+model_1 = keras.Sequential(
     [
         layers.Rescaling(1.0 / 255),  # Normalize the input images to [0, 1]
         layers.Conv2D(32, (3, 3), activation="relu", input_shape=(180, 180, 3)),
@@ -41,8 +41,8 @@ model = keras.Sequential(
     ]
 )
 
-# Compile model for multi-class with sparse categorical crossentropy
-model.compile(
+# Compile model_1 for multi-class with sparse categorical crossentropy
+model_1.compile(
     optimizer="rmsprop", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
 )
 # Save the best model
@@ -55,15 +55,15 @@ callbacks = [
 ]
 
 # Fit the model
-history = model.fit(
+history = model_1.fit(
     train_dataset, epochs=5, validation_data=validation_dataset, callbacks=callbacks
 )
 
-validation_loss, validation_accuracy = model.evaluate(validation_dataset)
+validation_loss, validation_accuracy = model_1.evaluate(validation_dataset)
 print(f"Validation loss: {validation_loss}")
 print(f"Validation accuracy: {validation_accuracy}")
 
-test_loss, test_acc = model.evaluate(test_dataset)
+test_loss, test_acc = model_1.evaluate(test_dataset)
 print(f"Test loss: {test_loss}")
 print(f"Test accuracy: {test_acc:.3f}")
 

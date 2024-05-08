@@ -9,6 +9,8 @@ from tensorflow.keras.preprocessing.image import (
     load_img,
 )
 
+# TODO: Rema images should automatically be put into the test set
+
 CLEANUP_DIRS = True
 NUMBER_OF_VARIATIONS = 80
 NUMBER_OF_VARIATIONS_val = 20
@@ -28,8 +30,8 @@ if CLEANUP_DIRS is True:
         shutil.rmtree("src/dataset/validation")
     if os.path.exists("src/dataset/train"):
         shutil.rmtree("src/dataset/train")
-  #  if os.path.exists("src/dataset/test"):
-   #     shutil.rmtree("src/dataset/test")
+    # if os.path.exists("src/dataset/test"):
+    #     shutil.rmtree("src/dataset/test")
 
 for fileclass in product_classes:
     # Loop through the files in the directory
@@ -43,12 +45,12 @@ for fileclass in product_classes:
         image, axis=0
     )  # Add a new axis to make the image array four dimensional
 
-    # Copy to validation
+    # Copy original images to validation directory
     validation_dir = f"{directory_output}/validation/{fileclass}"
     os.makedirs(validation_dir, exist_ok=True)
     shutil.copyfile(filepath, validation_dir + "/image.jpg")
 
-    # Define the directory to save augmented images
+    # Create augmentations from the original images into the train dataset
     for type in ["train"]:
         save_dir = f"{directory_output}/{type}/{fileclass}/"
         os.makedirs(save_dir, exist_ok=True)
@@ -73,13 +75,13 @@ for fileclass in product_classes:
             save_format="jpeg",
         )
 
-        augmented_images_val = datagen.flow(
-            image,
-            batch_size=1,
-            save_to_dir=validation_dir,
-            save_prefix="aug_",
-            save_format="jpeg",
-        )
+        # augmented_images_val = datagen.flow(
+        #     image,
+        #     batch_size=1,
+        #     save_to_dir=validation_dir,
+        #     save_prefix="aug_",
+        #     save_format="jpeg",
+        # )
 
         # Generate and save a number of augmented images
         for i in range(
@@ -90,13 +92,3 @@ for fileclass in product_classes:
             )  # Generates and saves the next batch of augmented images
 
         print(f"Augmented images saved to {save_dir}")
-
-        # Generate and save a number of augmented images
-        for i in range(
-            NUMBER_OF_VARIATIONS_val
-        ):  # Specify the number of augmented images to generate
-            next(
-                augmented_images_val
-            )  # Generates and saves the next batch of augmented images
-
-        print(f"Augmented images saved to {validation_dir}")

@@ -3,7 +3,12 @@
 convnet_from_scratch.keras
 
 # Ignore image files in a specific directory
-src/dataset/*.jpg
-src/dataset/*.jpeg
-src/dataset/*.png
-src/dataset/*.gif
+src/dataset/train/*.jpg
+src/dataset/train/*.jpeg
+src/dataset/train/*.png
+src/dataset/train/*.gif
+
+src/dataset/validation/*.jpg
+src/dataset/validation/*.jpeg
+src/dataset/validation/*.png
+src/dataset/validation/*.gif
