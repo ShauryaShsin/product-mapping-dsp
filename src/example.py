@@ -31,9 +31,19 @@ columns = [
 # Assuming the scraper has found the following products
 scraped_product_data = [
     [
+        "93",
+        None,
+        "rema1000",
+        "pringles-sour",
+        "kims",
+        1.99,
+        0.150,
+        "src/product_images/favorit/image.jpg",
+    ],
+    [
         "48",
         None,
-        "Nemlig.com",
+        "rema1000",
         "favorit",
         "kims",
         1.99,
@@ -43,7 +53,7 @@ scraped_product_data = [
     [
         "41",
         None,
-        "Nemlig.com",
+        "rema1000",
         "havsalt",
         "kims",
         2.50,
@@ -53,7 +63,7 @@ scraped_product_data = [
     [
         "23",
         None,
-        "Nemlig.com",
+        "rema1000",
         "sour",
         "kims",
         2.25,
@@ -66,19 +76,20 @@ df_retailer = pd.DataFrame(scraped_product_data, columns=columns)
 df_retailer.to_csv("src/data/retailer_products.csv")
 
 # Use the trained model to predict which Salling product the scraped product corresponds to
-for index, row in df_retailer.iterrows():
+# for index, row in df_retailer.iterrows():
 
-    predicted_salling_product = predict_product(img_path=row["image_url"])
+#     predicted_salling_product = predict_product(img_path=row["image_url"])
 
-    salling_match = df_salling[df_salling["name"] == predicted_salling_product]
+#     salling_match = df_salling[df_salling["name"] == predicted_salling_product]
 
-    salling_sku = salling_match["SKU"]
+#     salling_sku = salling_match["SKU"]
 
-    print(salling_sku)
+#     print(salling_sku)
 
-    df_retailer.at[index, "Salling_SKU"] = salling_sku
+#     df_retailer.at[index, "Salling_SKU"] = salling_sku
 
-    df_retailer.to_csv("src/data/retailer_products.csv")
+#     df_retailer.to_csv("src/data/retailer_products.csv")
 
 
 # Pricemappung tabel
+print(predict_product(img_path="src/scraped_images/rema1000_51.jpg"))
