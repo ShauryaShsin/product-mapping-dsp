@@ -4,6 +4,7 @@ import os
 import shutil
 import numpy as np
 from PIL import Image
+from pathlib import Path
 from tensorflow.keras.preprocessing.image import (
     ImageDataGenerator,
     img_to_array,
@@ -13,8 +14,8 @@ from config import IMAGE_SIZE, CLEANUP_DIRS, NUMBER_OF_AUGMENTATION_VARIANTS
 
 # TODO: Rema images should automatically be put into the test set
 
-directory_input = "src/product_images"
-directory_output = "src/dataset"
+directory_input = Path("src/product_images")
+directory_output = Path("src/dataset")
 
 product_classes = [
     filename for filename in os.listdir(directory_input) if filename != ".DS_Store"
@@ -24,10 +25,10 @@ print(product_classes)
 
 # Clean up dirs
 if CLEANUP_DIRS is True:
-    if os.path.exists("src/dataset/validation"):
-        shutil.rmtree("src/dataset/validation")
-    if os.path.exists("src/dataset/train"):
-        shutil.rmtree("src/dataset/train")
+    if os.path.exists(Path("src/dataset/validation")):
+        shutil.rmtree(Path("src/dataset/validation"))
+    if os.path.exists(Path("src/dataset/train")):
+        shutil.rmtree(Path("src/dataset/train"))
     # if os.path.exists("src/dataset/test"):
     #     shutil.rmtree("src/dataset/test")
 
@@ -67,7 +68,7 @@ for fileclass in product_classes:
 
     # Create augmentations from the original images into the train dataset
     for type in ["train"]:
-        save_dir = f"{directory_output}/{type}/{fileclass}/"
+        save_dir = Path(f"{directory_output}/{type}/{fileclass}/")
         os.makedirs(save_dir, exist_ok=True)
 
         # Create an ImageDataGenerator for data augmentation
