@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 from config import IMAGE_SIZE
 
-new_base_dir = pathlib.Path("src/dataset")
+new_base_dir = pathlib.Path("src/dataset")  #
 
 
 # labels are generated from the directory structure
@@ -23,7 +23,7 @@ test_dataset = image_dataset_from_directory(
     new_base_dir / "test_2", image_size=IMAGE_SIZE, batch_size=16
 )
 
-N_CLASSES = len([name for name in os.listdir("src/dataset/validation")])
+N_CLASSES = len([name for name in os.listdir(pathlib.Path("src/dataset/validation"))])
 
 # Define the model
 # TODO: understand this better
@@ -51,7 +51,7 @@ model_1.compile(
 # Save the best model
 callbacks = [
     keras.callbacks.ModelCheckpoint(
-        filepath="src/models/convnet_from_scratch.keras",
+        filepath=pathlib.Path("src/models/convnet_from_scratch.keras"),
         save_best_only=True,
         monitor="val_loss",
     )
