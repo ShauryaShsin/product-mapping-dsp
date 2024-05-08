@@ -12,6 +12,7 @@ from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 
+
 def predict_all_products(test_dir: str):
     """Predicts product class for all images in the test directory"""
     # Setup paths
@@ -20,7 +21,7 @@ def predict_all_products(test_dir: str):
     )
 
     # Load model
-    model = keras.models.load_model("src/convnet_from_scratch.keras")
+    model = keras.models.load_model("src/models/convnet_from_scratch.keras")
 
     # Get classes from dataset
     classes = test_dataset.class_names
@@ -34,6 +35,7 @@ def predict_all_products(test_dir: str):
             predicted_class_index = np.argmax(probabilities)
             predicted_class = classes[predicted_class_index]
             print(f"Folder: {folder_name}, Predicted class: {predicted_class}")
+
 
 test_dir = pathlib.Path("src/dataset/test")
 predict_all_products(test_dir)

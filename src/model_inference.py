@@ -26,7 +26,7 @@ def predict_product(img_path: str) -> str:
     )
 
     # Load model
-    model = keras.models.load_model("src/convnet_from_scratch.keras")
+    model = keras.models.load_model("src/models/convnet_from_scratch.keras")
 
     img = keras.utils.load_img(img_path, target_size=image_size)
     # plt.imshow(img)

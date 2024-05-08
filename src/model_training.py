@@ -48,7 +48,7 @@ model.compile(
 # Save the best model
 callbacks = [
     keras.callbacks.ModelCheckpoint(
-        filepath="src/convnet_from_scratch.keras",
+        filepath="src/models/convnet_from_scratch.keras",
         save_best_only=True,
         monitor="val_loss",
     )
