@@ -20,7 +20,7 @@ validation_dataset = image_dataset_from_directory(
 )
 
 test_dataset = image_dataset_from_directory(
-    new_base_dir / "test", image_size=IMAGE_SIZE, batch_size=16
+    new_base_dir / "test_2", image_size=IMAGE_SIZE, batch_size=16
 )
 
 N_CLASSES = len([name for name in os.listdir("src/dataset/validation")])
