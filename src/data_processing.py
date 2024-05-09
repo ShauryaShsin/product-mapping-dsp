@@ -81,7 +81,8 @@ for fileclass in product_classes:
             shear_range=0.2,  # Shearing intensity (shear angle in counter-clockwise direction)
             zoom_range=0.2,  # Range for random zoom
             # horizontal_flip=True,  # Randomly flip inputs horizontally
-            fill_mode="nearest",  # Strategy to fill newly created pixels
+            fill_mode="constant",  # Strategy to fill newly created pixels
+            cval=255,
         )
 
         # Generate batches of augmented images and save them to the specified directory

@@ -27,18 +27,22 @@ test_dataset = image_dataset_from_directory(
 N_CLASSES = len([name for name in os.listdir(pathlib.Path("src/dataset/validation"))])
 
 # Define the model
-# TODO: understand this better
-model_1 = keras.Sequential(
+## this is the model which wei et al used. 
+model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  # Normalize the input images to [0, 1]
+        layers.Rescaling(1.0 / 255),  
         layers.Conv2D(
-            32, (3, 3), activation="relu", input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3)
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
         ),
-        # layers.MaxPooling2D(2, 2),
-        # layers.Conv2D(64, (3, 3), activation="relu"),
-        # layers.MaxPooling2D(2, 2),
-        # layers.Conv2D(128, (3, 3), activation="relu"),
-        # layers.MaxPooling2D(2, 2),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
         layers.Flatten(),
         layers.Dense(128, activation="relu"),
         layers.Dense(N_CLASSES, activation="softmax"),
@@ -74,28 +78,6 @@ model_3 = keras.Sequential(
 # 20 aug - accuracy: 0.6667 - loss: 1.7013 Image size 180, 20 augmentations
 # 1 aug - Test accuracy: 0.333 Image size 180, 1 augmentations
 
-# ------------------------------------------------------------------------
-# Experiment 2: Different model parameters
-# ------------------------------------------------------------------------
-
-model_3 = keras.Sequential(
-    [
-        layers.Rescaling(1.0 / 255),  # Normalize the input images to [0, 1]
-        layers.Conv2D(
-            filters=64,
-            kernel_size=3,
-            activation="relu",
-            padding="same",
-            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
-        ),
-        layers.MaxPooling2D(pool_size=2),
-        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
-        layers.Flatten(),
-        layers.Dense(128, activation="relu"),
-        layers.Dense(N_CLASSES, activation="softmax"),
-    ]
-)
-
 # Results
 # 1. Changing filter size from 64, 32 vs 32, 16 improves accuracy from accuracy: 0.7778 - loss: 1.0277 to  accuracy: 0.8889 - loss: 0.7551
 # 2. Adding another max pooling layer, highlighting the most important features from the image
@@ -107,6 +89,223 @@ model_3 = keras.Sequential(
 # 7: Removed second max pooling layer: Same
 # 8: Increased pool_size from 2 to 3: accuracy: 0.8889 - loss: 0.5794
 # 9: batch size does not affect accuracy
+
+
+### FIRST WE TEST WEI MODEL ####
+
+# Define the model
+## this is the model which wei et al used. 
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+
+# Test loss: 0.2908405065536499     # Validation loss: 0.0005306384991854429
+# Test accuracy: 0.875              # Validation accuracy: 1.0
+
+
+#### THEN WE TEST WITH ONE LESS MAXPOOLING LAYER
+
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  
+        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        # layers.MaxPooling2D(2, 2),  # MODEL WITHOUT THIS
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+# Test loss: 0.6465534567832947 # Validation loss: 0.0015060750301927328
+# Test accuracy: 0.688          # Validation accuracy: 1.0
+
+# This performs much worse
+
+
+#### WHAT IF THE THIRD LAYER ALSO WAS DELETED ####
+
+
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  
+        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  
+        # layers.Conv2D(filters=16, kernel_size=3, activation="relu"), #model without this also
+        # layers.MaxPooling2D(2, 2),  # MODEL WITHOUT THIS
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+# Test loss: 0.9086869955062866     # Validation loss: 2.537705222493969e-05
+# Test accuracy: 0.812              # Validation accuracy: 1.0
+
+
+#### WHAT IF WE CHANGE TH FILTER NUMBERS ####
+
+
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=32,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  
+        # layers.Conv2D(filters=16, kernel_size=3, activation="relu"), #model without this also
+        # layers.MaxPooling2D(2, 2),  # MODEL WITHOUT THIS
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+# Test loss: 1.8487775325775146     # Validation loss: 0.0020548219326883554
+# Test accuracy: 0.812              # Validation accuracy: 1.0
+
+
+
+### WHAT IF WE INCLUDE ANOTHER LAYER + MAXPOOLING ####
+
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+
+# Test loss: 0.7882579565048218     # Validation loss: 0.221534863114357
+# Test accuracy: 0.750              # Validation accuracy: 0.7777777910232544
+
+
+### WHAT IF WE CHANGE KERNAL ####
+
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=32, kernel_size=5, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=16, kernel_size=5, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+
+# Test loss: 0.971632719039917    # Validation loss: 0.0019743291195482016
+# Test accuracy: 0.812              # Validation accuracy: 0.1
+
+
+#### SO THE FIRST MODEL WAS BEST!! IT IS THE BELOW CODE####
+
+## this is the model which wei et al used. 
+model_3 = keras.Sequential(
+    [
+        layers.Rescaling(1.0 / 255),  
+        layers.Conv2D(
+            filters=64,
+            kernel_size=3,
+            activation="relu",
+            padding="same",
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        ),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
+        layers.MaxPooling2D(2, 2),  # Saves the most important information
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(N_CLASSES, activation="softmax"),
+    ]
+)
+
+
+# Test loss: 0.2908405065536499     # Validation loss: 0.0005306384991854429
+# Test accuracy: 0.875              # Validation accuracy: 1.0
+
+
+#### WHAT AUGMENTATION IS BEST
+## with 100 ##
+# Test loss: 0.2908405065536499     # Validation loss: 0.0005306384991854429
+# Test accuracy: 0.875              # Validation accuracy: 1.0
+
+
+## with 50 ##
+# Test loss: 1.754159688949585      # Validation loss: 0.03422638028860092
+# Test accuracy: 0.500              # Validation accuracy: 1.0
+
+
+#### BELOW PRINTS THE RESULTS ###
 
 # Compile model for multi-class with sparse categorical crossentropy
 model_3.compile(
@@ -133,6 +332,5 @@ print(f"Validation accuracy: {validation_accuracy}")
 test_loss, test_acc = model_3.evaluate(test_dataset)
 print(f"Test loss: {test_loss}")
 print(f"Test accuracy: {test_acc:.3f}")
-
 # weight_matrix = model.save_weights(filepath = 'src/model.weights.h5')
 # print(weight_matrix)
