@@ -27,16 +27,16 @@ test_dataset = image_dataset_from_directory(
 N_CLASSES = len([name for name in os.listdir(pathlib.Path("src/dataset/validation"))])
 
 # Define the model
-## this is the model which wei et al used. 
+## this is the model which wei et al used.
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
             activation="relu",
             padding="same",
-            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+            input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 2),
         ),
         layers.MaxPooling2D(2, 2),  # Saves the most important information
         layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
@@ -94,10 +94,10 @@ model_3 = keras.Sequential(
 ### FIRST WE TEST WEI MODEL ####
 
 # Define the model
-## this is the model which wei et al used. 
+## this is the model which wei et al used.
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
@@ -125,7 +125,7 @@ model_3 = keras.Sequential(
 
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
@@ -133,9 +133,9 @@ model_3 = keras.Sequential(
             padding="same",
             input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
         ),
-        layers.MaxPooling2D(2, 2),  
+        layers.MaxPooling2D(2, 2),
         layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
-        layers.MaxPooling2D(2, 2),  
+        layers.MaxPooling2D(2, 2),
         layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
         # layers.MaxPooling2D(2, 2),  # MODEL WITHOUT THIS
         layers.Flatten(),
@@ -155,7 +155,7 @@ model_3 = keras.Sequential(
 
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
@@ -163,9 +163,9 @@ model_3 = keras.Sequential(
             padding="same",
             input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
         ),
-        layers.MaxPooling2D(2, 2),  
+        layers.MaxPooling2D(2, 2),
         layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
-        layers.MaxPooling2D(2, 2),  
+        layers.MaxPooling2D(2, 2),
         # layers.Conv2D(filters=16, kernel_size=3, activation="relu"), #model without this also
         # layers.MaxPooling2D(2, 2),  # MODEL WITHOUT THIS
         layers.Flatten(),
@@ -183,7 +183,7 @@ model_3 = keras.Sequential(
 
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=32,
             kernel_size=3,
@@ -191,9 +191,9 @@ model_3 = keras.Sequential(
             padding="same",
             input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
         ),
-        layers.MaxPooling2D(2, 2),  
+        layers.MaxPooling2D(2, 2),
         layers.Conv2D(filters=16, kernel_size=3, activation="relu"),
-        layers.MaxPooling2D(2, 2),  
+        layers.MaxPooling2D(2, 2),
         # layers.Conv2D(filters=16, kernel_size=3, activation="relu"), #model without this also
         # layers.MaxPooling2D(2, 2),  # MODEL WITHOUT THIS
         layers.Flatten(),
@@ -206,12 +206,11 @@ model_3 = keras.Sequential(
 # Test accuracy: 0.812              # Validation accuracy: 1.0
 
 
-
 ### WHAT IF WE INCLUDE ANOTHER LAYER + MAXPOOLING ####
 
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
@@ -241,7 +240,7 @@ model_3 = keras.Sequential(
 
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
@@ -267,10 +266,10 @@ model_3 = keras.Sequential(
 
 #### SO THE FIRST MODEL WAS BEST!! IT IS THE BELOW CODE####
 
-## this is the model which wei et al used. 
+## this is the model which wei et al used.
 model_3 = keras.Sequential(
     [
-        layers.Rescaling(1.0 / 255),  
+        layers.Rescaling(1.0 / 255),
         layers.Conv2D(
             filters=64,
             kernel_size=3,
