@@ -1,5 +1,4 @@
 ,Retailer_SKU,Salling_SKU,Retailer,name,brand,price,kg,image_url
-0,48,"0    100
-Name: SKU, dtype: object",Nemlig.com,favorit,kims,1.99,0.15,src/product_images/favorit/image.jpg
+0,48,,Nemlig.com,favorit,kims,1.99,0.15,src/product_images/favorit/image.jpg
 1,41,,Nemlig.com,havsalt,kims,2.5,0.15,src/product_images/havsalt/image.jpg
 2,23,,Nemlig.com,sour,kims,2.25,0.15,src/product_images/sour/image.jpg
