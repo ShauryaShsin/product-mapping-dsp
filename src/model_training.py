@@ -10,8 +10,6 @@ DATASET_DIR = pathlib.Path("src/dataset")  #
 
 BATCH_SIZE = 16
 
-start = "Start"
-
 # labels are generated from the directory structure
 train_dataset = image_dataset_from_directory(
     DATASET_DIR / "train", image_size=IMAGE_SIZE, batch_size=BATCH_SIZE

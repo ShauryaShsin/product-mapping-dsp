@@ -12,10 +12,6 @@ from tensorflow.keras.preprocessing.image import (
 )
 from config import IMAGE_SIZE, CLEANUP_DIRS, NUMBER_OF_AUGMENTATION_VARIANTS
 
-start = "Start"
-
-# TODO: Rema images should automatically be put into the test set
-
 directory_input = Path("src/product_images")
 directory_output = Path("src/dataset")
 
