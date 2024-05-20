@@ -13,8 +13,6 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.utils import image_dataset_from_directory
 from config import IMAGE_SIZE
 
-start = "Start"
-
 TEST_IMAGE = "src/dataset/test_2/pringles-original/ezgif-7-c2bd800053.jpg"
 
 # Define the path to the test dataset

@@ -12,10 +12,6 @@ from tensorflow.keras.preprocessing.image import (
 )
 from config import IMAGE_SIZE, CLEANUP_DIRS, NUMBER_OF_AUGMENTATION_VARIANTS
 
-start = "Start"
-
-# TODO: Rema images should automatically be put into the test set
-
 directory_input = Path("src/product_images")
 directory_output = Path("src/dataset")
 
@@ -31,8 +27,6 @@ if CLEANUP_DIRS is True:
         shutil.rmtree(Path("src/dataset/validation"))
     if os.path.exists(Path("src/dataset/train")):
         shutil.rmtree(Path("src/dataset/train"))
-    # if os.path.exists("src/dataset/test"):
-    #     shutil.rmtree("src/dataset/test")
 
 for fileclass in product_classes:
     # Loop through the files in the directory
